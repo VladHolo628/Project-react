@@ -1,11 +1,10 @@
-import './App.css';
-
+import Header from './components/Header';
+import PageContent from './components/PageContent';
 function App() {
-  const firstText = 'Hello';
   return (
     <>
-      <div>{firstText.toLocaleUpperCase()}</div>
-      <h3>World</h3>
+      <Header />
+      <PageContent />
     </>
   );
 }
