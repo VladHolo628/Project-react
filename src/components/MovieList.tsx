@@ -350,38 +350,13 @@ const MovieList = () => {
         return (
           <MovieCard
             key={movie.id}
-            src="src/img/demon-slayer.jpg"
+            src={`https://image.tmdb.org/t/p/w300/${movie.poster_path}`}
             name={movie.title}
             rating={movie.vote_average}
           />
         );
       })}
-      {/* <MovieCard
-        src="src/img/demon-slayer.jpg"
-        name="Demon Slayer"
-        rating={8.9}
-      />
-      <MovieCard src="src/img/toy-story.jpg" name="Toy Story 4" rating={6.2} />
-      <MovieCard
-        src="src/img/demon-slayer.jpg"
-        name="Demon Slayer"
-        rating={8.9}
-      />
-      <MovieCard
-        src="src/img/demon-slayer.jpg"
-        name="Demon Slayer"
-        rating={8.9}
-      />
-      <MovieCard
-        src="src/img/demon-slayer.jpg"
-        name="Demon Slayer"
-        rating={8.9}
-      />
-      <MovieCard
-        src="src/img/demon-slayer.jpg"
-        name="Demon Slayer"
-        rating={8.9}
-      /> */}
+ 
     </div>
   );
 };
