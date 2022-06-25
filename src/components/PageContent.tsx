@@ -3,7 +3,7 @@ import MovieList from './MovieList';
 
 const PageContent = () => {
   return (
-    <div className="flex bg-slate-800 px-6 pt-4 pb-2 h-full">
+    <div className="flex bg-stone-300 px-6 py-6 h-full">
       <Filter />
       <MovieList />
     </div>

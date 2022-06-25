@@ -1,14 +1,14 @@
 import { filterData } from '../data/data';
 import CategoryItem from './CategoryItem';
 import Pagination from './Pagination';
-import ResetButton from './UI/ResetButton';
+import Button from './UI/Button';
 
 const Filter = () => {
   return (
-    <div className=" text-white p-4 border-2 bg-slate-700 border-green-400 rounded-md h-min w-1/5">
+    <div className=" text-stone-100 p-4 border-2 bg-stone-500  rounded-md h-min w-1/5">
       <h2 className="text-xl mb-6">Фильтры:</h2>
       <form className="flex flex-col mb-2">
-        <ResetButton />
+      <Button classes='mb-4' type='reset' handler=''>Сбросить все фильтры</Button>
         <label className="mb-2">
           Сортировать по:
           <select className="block w-full p-2 rounded text-slate-800 mt-4">

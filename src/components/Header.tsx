@@ -1,11 +1,12 @@
+import Button from './UI/Button';
 import HomeButton from './UI/HomeButton';
 import LoginButton from './UI/LoginButton';
 
 const Header = () => {
   return (
-    <div className="flex justify-between items-center bg-slate-900 px-6 py-2 shadow-lg">
+    <div className="flex justify-between items-center bg-stone-900 px-6 py-4 shadow-lg">
       <HomeButton />
-      <LoginButton />
+      <Button type='button' classes='' handler=''>Log In</Button>
     </div>
   );
 };
