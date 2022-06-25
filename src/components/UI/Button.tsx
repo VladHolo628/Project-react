@@ -2,7 +2,7 @@ const Button = (props: {
   children: string;
   type: 'submit' | 'reset' | 'button';
   classes:string
-  handler:any
+  handler?:any
   disabled?:boolean
 }) => {
   let additionalClass = props.classes;

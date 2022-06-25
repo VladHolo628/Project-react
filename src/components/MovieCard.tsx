@@ -4,10 +4,12 @@ const MovieCard = (props: { rating: number; name: string; src: string }) => {
       <img src={props.src} className="w-2/5 aspect-poster " />
       <div className="p-4 flex flex-col w-full">
         <div className="flex justify-between mb-6">
-          <p className="mr-6">Рейтинг: 
-          <span className="font-lg ml-2 font-semibold text-amber-600">
-            {props.rating}
-          </span> </p>
+          <p className="mr-6">
+            Рейтинг:
+            <span className="font-lg ml-2 font-semibold text-amber-600">
+              {props.rating}
+            </span>{' '}
+          </p>
           <div className="flex">
             <img
               className="w-6 mr-6 cursor-pointer"
