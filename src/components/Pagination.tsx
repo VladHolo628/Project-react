@@ -1,10 +1,11 @@
 import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../store/store';
 import Button from './UI/Button';
 
-const Pagination = () => {
-  const movies = useSelector(state => state.movies);
-  const moviesPerPage = useSelector(state => state.moviesPerPage);
-  const currentPage = useSelector(state => state.currentPage);
+const Pagination: React.FC = () => {
+  const movies = useSelector((state: RootState) => state.movies);
+  const moviesPerPage = useSelector((state: RootState) => state.moviesPerPage);
+  const currentPage = useSelector((state: RootState) => state.currentPage);
   const totalPages = movies.length / moviesPerPage;
   const dispatch = useDispatch();
 

@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../store/store';
 import MovieCard from './MovieCard';
 import data from '../store/data';
 
-const MovieList = () => {
+const MovieList: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
 
@@ -12,9 +13,9 @@ const MovieList = () => {
     setIsLoading(false);
   }, []);
 
-  const movies = useSelector(state => state.outputMovies);
-  const moviesPerPage = useSelector(state => state.moviesPerPage);
-  const currentPage = useSelector(state => state.currentPage);
+  const movies = useSelector((state: RootState) => state.outputMovies);
+  const moviesPerPage = useSelector((state: RootState) => state.moviesPerPage);
+  const currentPage = useSelector((state: RootState) => state.currentPage);
 
   const lastMovieIndex = currentPage * moviesPerPage;
   const firstMovieIndex = lastMovieIndex - moviesPerPage;

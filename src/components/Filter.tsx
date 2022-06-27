@@ -1,18 +1,21 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { filterData } from '../data/data';
+import { RootState } from '../store/store';
 import CategoryItem from './CategoryItem';
 import Pagination from './Pagination';
 import Button from './UI/Button';
 
-const Filter = () => {
+const Filter: React.FC = () => {
   const dispatch = useDispatch();
-  const sortedMovies = useSelector(state => state.sortedMovies);
-  const defaultSorting = useSelector(state => state.defaultSorting);
-  const defaultYear = useSelector(state => state.defaultYear);
+  const defaultSorting = useSelector(
+    (state: RootState) => state.defaultSorting
+  );
+  const defaultYear = useSelector((state: RootState) => state.defaultYear);
   const [selectedYear, setSelectedYear] = useState(defaultYear);
   const [selectedSorting, setSelectedSorting] = useState(defaultSorting);
-  const setToDefault = e => {
+
+  const setToDefault = (e: React.FormEvent) => {
     e.preventDefault();
     setSelectedYear(defaultYear);
     setSelectedSorting(defaultSorting);
@@ -25,12 +28,12 @@ const Filter = () => {
     dispatch({ type: 'sortByYear', payload: defaultYear });
   }, []);
 
-  const sort = e => {
+  const sort = (e: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch({ type: `sortBy${e.target.value}` });
     setSelectedSorting(e.target.value);
     dispatch({ type: 'sortByYear', payload: selectedYear });
   };
-  const filterByDate = e => {
+  const filterByDate = (e: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch({ type: `sortByYear`, payload: e.target.value });
     setSelectedYear(e.target.value);
   };
@@ -69,11 +72,6 @@ const Filter = () => {
           {filterData.map(item => {
             return <CategoryItem key={item.id} category={item.name} />;
           })}
-          {/* <CategoryItem category="Боевик" />
-          <CategoryItem category="Приключение" />
-          <CategoryItem category="Мультфильм" />
-          <CategoryItem category="Вестерн" />
-          <CategoryItem category="Комедия" /> */}
         </div>
       </form>
       <Pagination />

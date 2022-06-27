@@ -1,7 +1,35 @@
 import { createStore } from 'redux';
 import data from './data';
 
-const initialState = {
+interface moviesItem {
+  adult: boolean;
+  backdrop_path: string | null;
+  genre_ids: number[];
+  id: number;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string | null;
+  release_date: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+}
+
+export interface RootState {
+  movies: moviesItem[];
+  sortedMovies: moviesItem[];
+  filteredMovies: moviesItem[];
+  outputMovies: moviesItem[];
+  moviesPerPage: number;
+  currentPage: number;
+  defaultSorting: string;
+  defaultYear: string;
+}
+
+const initialState: RootState = {
   movies: data,
   sortedMovies: [],
   filteredMovies: [],
