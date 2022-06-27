@@ -13,14 +13,34 @@ const Filter: React.FC = () => {
   );
   const defaultYear = useSelector((state: RootState) => state.defaultYear);
   const [selectedYear, setSelectedYear] = useState(defaultYear);
+  const filteredMovies = useSelector((state: RootState) => state.genres);
   const [selectedSorting, setSelectedSorting] = useState(defaultSorting);
 
-  const setToDefault = (e: React.FormEvent) => {
-    e.preventDefault();
+  const setToDefault = (e: React.FormEvent<HTMLFormElement>) => {
     setSelectedYear(defaultYear);
     setSelectedSorting(defaultSorting);
     dispatch({ type: defaultSorting });
     dispatch({ type: 'sortByYear', payload: defaultYear });
+    dispatch({ type: 'resetFiltered' });
+  };
+  const handleFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const isAlreadyAdded = filteredMovies.some((item: number) => {
+      return item === +e.target.id;
+    });
+
+    if (isAlreadyAdded) {
+      if (filteredMovies.length === 1) {
+        dispatch({ type: 'sortByYear', payload: defaultYear });
+        dispatch({ type: selectedSorting });
+      }
+      dispatch({ type: 'removeFromFiltered', payload: +e.target.id });
+    } else {
+      dispatch({ type: 'addToFiltered', payload: +e.target.id });
+    }
+
+    dispatch({ type: 'sortByYear', payload: defaultYear });
+    dispatch({ type: selectedSorting });
+    dispatch({ type: 'filter' });
   };
 
   useEffect(() => {
@@ -32,16 +52,18 @@ const Filter: React.FC = () => {
     dispatch({ type: `sortBy${e.target.value}` });
     setSelectedSorting(e.target.value);
     dispatch({ type: 'sortByYear', payload: selectedYear });
+    dispatch({ type: 'filter' });
   };
   const filterByDate = (e: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch({ type: `sortByYear`, payload: e.target.value });
     setSelectedYear(e.target.value);
+    dispatch({ type: 'filter' });
   };
   return (
     <div className=" text-stone-100 p-4 border-2 bg-stone-500  rounded-md h-min w-1/5">
       <h2 className="text-xl mb-6">Фильтры:</h2>
-      <form className="flex flex-col mb-2">
-        <Button handler={setToDefault} classes="mb-4" type="reset">
+      <form onReset={setToDefault} className="flex flex-col mb-2">
+        <Button classes="mb-4" type="reset">
           Сбросить все фильтры
         </Button>
         <label className="mb-2">
@@ -70,7 +92,14 @@ const Filter: React.FC = () => {
         </label>
         <div className="flex flex-col mb-2">
           {filterData.map(item => {
-            return <CategoryItem key={item.id} category={item.name} />;
+            return (
+              <CategoryItem
+                key={item.id}
+                category={item.name}
+                id={item.id}
+                handleOnChange={handleFilter}
+              />
+            );
           })}
         </div>
       </form>

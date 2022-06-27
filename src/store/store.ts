@@ -21,7 +21,8 @@ interface moviesItem {
 export interface RootState {
   movies: moviesItem[];
   sortedMovies: moviesItem[];
-  filteredMovies: moviesItem[];
+  filteredMovies: any;
+  genres: number[];
   outputMovies: moviesItem[];
   moviesPerPage: number;
   currentPage: number;
@@ -33,6 +34,7 @@ const initialState: RootState = {
   movies: data,
   sortedMovies: [],
   filteredMovies: [],
+  genres: [],
   outputMovies: [],
   moviesPerPage: 10,
   currentPage: 1,
@@ -107,6 +109,32 @@ const moviesReducer = (
         ...newState,
         outputMovies: newState.sortedMovies.filter(item => {
           return item.release_date.includes(action.payload);
+        }),
+      };
+
+    case 'addToFiltered':
+      return {
+        ...newState,
+        genres: [...newState.genres, action.payload],
+      };
+    case 'removeFromFiltered':
+      return {
+        ...newState,
+        genres: newState.genres.filter((item: number) => {
+          return item !== action.payload;
+        }),
+      };
+    case 'resetFiltered':
+      return {
+        ...newState,
+        genres: [],
+      };
+    case 'filter':
+      if (newState.genres.length === 0) return newState;
+      return {
+        ...newState,
+        outputMovies: newState.outputMovies.filter(movie => {
+          return newState.genres.every(val => movie.genre_ids.includes(val));
         }),
       };
     default:
