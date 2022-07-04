@@ -28,6 +28,8 @@ export interface RootState {
   currentPage: number;
   defaultSorting: string;
   defaultYear: string;
+  showModal: boolean;
+  isAuthorized: boolean;
 }
 
 const initialState: RootState = {
@@ -40,13 +42,15 @@ const initialState: RootState = {
   currentPage: 1,
   defaultSorting: 'sortByPopularityDown',
   defaultYear: '2020',
+  showModal: false,
+  isAuthorized: false,
 };
 
 const moviesReducer = (
   state = initialState,
   action: { type: string; payload?: {} }
 ) => {
-  let newState = JSON.parse(JSON.stringify(state));
+  let newState: RootState = JSON.parse(JSON.stringify(state));
   switch (action.type) {
     case 'setMoviesList':
       return {
@@ -136,6 +140,18 @@ const moviesReducer = (
         outputMovies: newState.outputMovies.filter(movie => {
           return newState.genres.every(val => movie.genre_ids.includes(val));
         }),
+      };
+
+    case 'toggleModal':
+      return {
+        ...newState,
+        showModal: !newState.showModal,
+      };
+    case 'toggleAuthorized':
+      localStorage.setItem('isAuthorized', (!newState.isAuthorized).toString());
+      return {
+        ...newState,
+        isAuthorized: !newState.isAuthorized,
       };
     default:
       return newState;

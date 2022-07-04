@@ -6,9 +6,10 @@ module.exports = {
       aspectRatio: {
         poster: '4 / 3',
       },
+      backgroundImage: {
+        login: "url('/img/login.svg')",
+      },
     },
   },
-  plugins: [
-    require('@tailwindcss/forms'),
-  ],
+  plugins: [require('@tailwindcss/forms')],
 };

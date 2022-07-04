@@ -31,6 +31,7 @@ const MovieList: React.FC = () => {
             src={`https://image.tmdb.org/t/p/w500/${imagePath}`}
             name={movie.title}
             rating={movie.vote_average}
+            id={movie.id}
           />
         );
       })}

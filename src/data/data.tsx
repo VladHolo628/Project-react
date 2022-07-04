@@ -1,4 +1,4 @@
-export const filterData = [
+const filterData = [
   {
     id: 28,
     name: 'боевик',
@@ -419,3 +419,5 @@ export const movieData = [
     vote_count: 8806,
   },
 ];
+
+export default filterData;

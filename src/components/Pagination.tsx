@@ -3,10 +3,10 @@ import { RootState } from '../store/store';
 import Button from './UI/Button';
 
 const Pagination: React.FC = () => {
-  const movies = useSelector((state: RootState) => state.movies);
+  const movies = useSelector((state: RootState) => state.outputMovies);
   const moviesPerPage = useSelector((state: RootState) => state.moviesPerPage);
   const currentPage = useSelector((state: RootState) => state.currentPage);
-  const totalPages = movies.length / moviesPerPage;
+  const totalPages = Math.ceil(movies.length / moviesPerPage);
   const dispatch = useDispatch();
 
   const handlePageIncrement = () => {
@@ -21,14 +21,14 @@ const Pagination: React.FC = () => {
         <Button
           handler={handlePageDecrement}
           classes=""
-          disabled={currentPage === 1 ? true : false}
+          disabled={currentPage === 1}
           type="button">
           Назад
         </Button>
         <Button
           handler={handlePageIncrement}
           classes=""
-          disabled={currentPage === totalPages ? true : false}
+          disabled={currentPage === totalPages}
           type="button">
           Вперед
         </Button>

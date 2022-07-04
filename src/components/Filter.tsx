@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { filterData } from '../data/data';
+import filterData from '../data/data';
 import { RootState } from '../store/store';
 import CategoryItem from './CategoryItem';
 import Pagination from './Pagination';
 import Button from './UI/Button';
 
 const Filter: React.FC = () => {
+  const isAuthorized = useSelector((state: RootState) => state.isAuthorized);
   const dispatch = useDispatch();
   const defaultSorting = useSelector(
     (state: RootState) => state.defaultSorting
@@ -59,6 +60,14 @@ const Filter: React.FC = () => {
     setSelectedYear(e.target.value);
     dispatch({ type: 'filter' });
   };
+
+  const authorizedUserSelect = (
+    <select className="block w-full p-2 rounded text-slate-800 mt-4 mb-4">
+      <option value="PopularityDown">Смотреть позже</option>
+      <option value="PopularityUp">Избранные</option>
+    </select>
+  );
+
   return (
     <div className=" text-stone-100 p-4 border-2 bg-stone-500  rounded-md h-min w-1/5">
       <h2 className="text-xl mb-6">Фильтры:</h2>
@@ -81,6 +90,7 @@ const Filter: React.FC = () => {
         <label className="mb-2">
           Год релиза:
           <select
+            defaultValue={selectedYear}
             value={selectedYear}
             onChange={filterByDate}
             className="block w-full p-2 rounded text-slate-800 mt-4">
@@ -90,6 +100,7 @@ const Filter: React.FC = () => {
             <option value="2020">2020</option>
           </select>
         </label>
+
         <div className="flex flex-col mb-2">
           {filterData.map(item => {
             return (
@@ -102,6 +113,7 @@ const Filter: React.FC = () => {
             );
           })}
         </div>
+        {isAuthorized ? authorizedUserSelect : null}
       </form>
       <Pagination />
     </div>
