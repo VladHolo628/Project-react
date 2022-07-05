@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import Tilt from 'react-parallax-tilt';
 import filterData from '../../data/data';
-import Button from '../UI/Button';
 import { Tab, TabList, Tabs, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 const MovieDetails = () => {
@@ -12,7 +11,7 @@ const MovieDetails = () => {
   const currentMovie = outputMovies.find(movie => {
     return movie.id === +id;
   });
-  const imagePath = currentMovie.poster_path || currentMovie.backdrop_path;
+  const imagePath = currentMovie?.poster_path || currentMovie?.backdrop_path;
 
   const genres = filterData.filter(item => {
     return currentMovie?.genre_ids.includes(item.id);

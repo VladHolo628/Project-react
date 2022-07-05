@@ -5,13 +5,13 @@ import MovieCard from './MovieCard';
 import data from '../store/data';
 
 const MovieList: React.FC = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const dispatch = useDispatch();
+  // const [isLoading, setIsLoading] = useState(true);
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch({ type: 'setMoviesList', payload: data });
-    setIsLoading(false);
-  }, []);
+  // useEffect(() => {
+  //   dispatch({ type: 'setMoviesList', payload: data });
+  //   setIsLoading(false);
+  // }, []);
 
   const movies = useSelector((state: RootState) => state.outputMovies);
   const moviesPerPage = useSelector((state: RootState) => state.moviesPerPage);

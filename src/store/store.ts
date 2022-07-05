@@ -1,7 +1,7 @@
 import { createStore } from 'redux';
 import data from './data';
 
-interface moviesItem {
+export interface moviesItem {
   adult: boolean;
   backdrop_path: string | null;
   genre_ids: number[];
@@ -26,8 +26,8 @@ export interface RootState {
   outputMovies: moviesItem[];
   moviesPerPage: number;
   currentPage: number;
-  defaultSorting: string;
-  defaultYear: string;
+  selectedSorting: string;
+  selectedYear: string;
   showModal: boolean;
   isAuthorized: boolean;
 }
@@ -40,8 +40,8 @@ const initialState: RootState = {
   outputMovies: [],
   moviesPerPage: 10,
   currentPage: 1,
-  defaultSorting: 'sortByPopularityDown',
-  defaultYear: '2020',
+  selectedSorting: 'PopularityDown',
+  selectedYear: '2020',
   showModal: false,
   isAuthorized: false,
 };
@@ -58,6 +58,22 @@ const moviesReducer = (
         movies: action.payload,
       };
       break;
+    case 'setOutputMovies':
+      return {
+        ...newState,
+        outputMovies: action.payload,
+      };
+    case 'setSelectedSorting':
+      return {
+        ...newState,
+        selectedSorting: action.payload,
+      };
+    case 'setSelectedYear':
+      return {
+        ...newState,
+        selectedYear: action.payload,
+      };
+
     case 'incrementPage':
       return {
         ...newState,
@@ -70,52 +86,6 @@ const moviesReducer = (
         currentPage: newState.currentPage - 1,
       };
       break;
-
-    case 'sortByVotesUp': {
-      const sorted = newState.movies.sort(
-        (a, b) => a.vote_average - b.vote_average
-      );
-      return {
-        ...newState,
-        sortedMovies: sorted,
-        outputMovies: sorted,
-      };
-    }
-    case 'sortByVotesDown': {
-      const sorted = newState.movies.sort(
-        (a, b) => b.vote_average - a.vote_average
-      );
-      return {
-        ...newState,
-        sortedMovies: sorted,
-        outputMovies: sorted,
-      };
-    }
-    case 'sortByPopularityDown': {
-      let sorted = newState.movies.sort((a, b) => b.popularity - a.popularity);
-      return {
-        ...newState,
-        sortedMovies: sorted,
-        outputMovies: sorted,
-      };
-    }
-    case 'sortByPopularityUp': {
-      let sorted = newState.movies.sort((a, b) => a.popularity - b.popularity);
-      return {
-        ...newState,
-        sortedMovies: sorted,
-        outputMovies: sorted,
-      };
-    }
-
-    case 'sortByYear':
-      return {
-        ...newState,
-        outputMovies: newState.sortedMovies.filter(item => {
-          return item.release_date.includes(action.payload);
-        }),
-      };
-
     case 'addToFiltered':
       return {
         ...newState,

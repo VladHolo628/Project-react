@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Modal from './components/Modal';
+import Filter from './components/Filter';
 import PageContent from './components/pages/PageContent';
 import MovieDetails from './components/pages/MovieDetails';
 import { useSelector, useDispatch } from 'react-redux';
