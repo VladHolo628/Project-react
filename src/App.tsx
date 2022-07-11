@@ -4,6 +4,7 @@ import Modal from './components/Modal';
 import Filter from './components/Filter';
 import PageContent from './components/pages/PageContent';
 import MovieDetails from './components/pages/MovieDetails';
+import MovieSearch from './components/pages/MovieSearch';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from './store/store';
 import { useEffect } from 'react';
@@ -23,6 +24,7 @@ function App() {
       <Routes>
         <Route path="/" element={<PageContent />} />
         <Route path="/:id" element={<MovieDetails />} />
+        <Route path="/search" element={<MovieSearch />} />
       </Routes>
     </Router>
   );
