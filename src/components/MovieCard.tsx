@@ -9,7 +9,7 @@ interface IMovieCardProps {
   id: number;
 }
 
-const MovieCard: React.FC<IMovieCardProps> = ({ src, name, rating, id }) => {
+const MovieCard: React.FC<IMovieCardProps> = ({ src, name, rating, id }:IMovieCardProps) => {
   const isAuthorized = useSelector((state: RootState) => state.isAuthorized);
   const dispatch = useDispatch();
 

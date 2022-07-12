@@ -20,37 +20,33 @@ export interface moviesItem {
 
 export interface RootState {
   movies: moviesItem[];
-  sortedMovies: moviesItem[];
-  filteredMovies: any;
-  genres: number[];
   outputMovies: moviesItem[];
   moviesPerPage: number;
   currentPage: number;
   selectedSorting: string;
   selectedYear: string;
+  selectedGenres:number[];
   showModal: boolean;
   isAuthorized: boolean;
 }
 
 const initialState: RootState = {
   movies: data,
-  sortedMovies: [],
-  filteredMovies: [],
-  genres: [],
   outputMovies: [],
   moviesPerPage: 10,
   currentPage: 1,
   selectedSorting: 'PopularityDown',
   selectedYear: '2020',
+  selectedGenres: [],
   showModal: false,
   isAuthorized: false,
 };
 
 const moviesReducer = (
   state = initialState,
-  action: { type: string; payload?: {} }
+  action: { type: string; payload?:any }
 ) => {
-  let newState: RootState = JSON.parse(JSON.stringify(state));
+  const newState: RootState = JSON.parse(JSON.stringify(state));
   switch (action.type) {
     case 'setMoviesList':
       return {
@@ -74,6 +70,11 @@ const moviesReducer = (
         selectedYear: action.payload,
       };
 
+      case 'setSelectedGenres':
+        return {
+          ...newState,
+          selectedGenres: action.payload,
+        };
     case 'incrementPage':
       return {
         ...newState,
@@ -86,32 +87,6 @@ const moviesReducer = (
         currentPage: newState.currentPage - 1,
       };
       break;
-    case 'addToFiltered':
-      return {
-        ...newState,
-        genres: [...newState.genres, action.payload],
-      };
-    case 'removeFromFiltered':
-      return {
-        ...newState,
-        genres: newState.genres.filter((item: number) => {
-          return item !== action.payload;
-        }),
-      };
-    case 'resetFiltered':
-      return {
-        ...newState,
-        genres: [],
-      };
-    case 'filter':
-      if (newState.genres.length === 0) return newState;
-      return {
-        ...newState,
-        outputMovies: newState.outputMovies.filter(movie => {
-          return newState.genres.every(val => movie.genre_ids.includes(val));
-        }),
-      };
-
     case 'toggleModal':
       return {
         ...newState,

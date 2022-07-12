@@ -13,49 +13,33 @@ const Filter: React.FC = () => {
     (state: RootState) => state.selectedSorting
   );
   const defaultYear = useSelector((state: RootState) => state.selectedYear);
+  const genres = useSelector((state: RootState) => state.selectedGenres);
   const [selectedYear, setSelectedYear] = useState(defaultYear);
   const [selectedSorting, setSelectedSorting] = useState(defaultSorting);
-  // const [sortedMovies, setSortedMovies] = useState([]);
-  // const [filteredByYear, setFilteredByYear] = useState([]);
-  const [filteredByGenre, setFilteredByGenre] = useState([]);
-  const filteredMovies = useSelector((state: RootState) => state.genres);
+  const [selectedGenres,setSelectedGenres] = useState<number[]>([])
   const movies = useSelector((state: RootState) => state.movies);
 
-  const setToDefault = (e: React.FormEvent<HTMLFormElement>) => {
+  const setToDefault = () => {
     setSelectedYear(defaultYear);
     setSelectedSorting(defaultSorting);
     dispatch({ type: defaultSorting });
     dispatch({ type: 'sortByYear', payload: defaultYear });
     dispatch({ type: 'resetFiltered' });
   };
-  const handleFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const isAlreadyAdded = filteredMovies.some((item: number) => {
-      return item === +e.target.id;
-    });
-
-    if (isAlreadyAdded) {
-      if (filteredMovies.length === 1) {
-        dispatch({ type: 'sortByYear', payload: defaultYear });
-        dispatch({ type: selectedSorting });
-      }
-      dispatch({ type: 'removeFromFiltered', payload: +e.target.id });
-    } else {
-      dispatch({ type: 'addToFiltered', payload: +e.target.id });
-    }
-
-    dispatch({ type: 'sortByYear', payload: defaultYear });
-    dispatch({ type: selectedSorting });
-    dispatch({ type: 'filter' });
-  };
 
   useEffect(() => {
     filterMovies();
   }, []);
 
+  useEffect(() => {
+    filterMovies();
+    console.log(333)
+  }, [selectedSorting,selectedYear,selectedGenres]);
+
   const filterMovies = () => {
     const filteredByYear = filterByYear(selectedYear);
-    // const filteredByGenres = filterByGenres(filteredByYear);
-    const sortedMovies = sort(selectedSorting, filteredByYear);
+    const filteredByGenres = filterByGenres(filteredByYear);
+    const sortedMovies = sort(selectedSorting, filteredByGenres);
 
     dispatch({ type: 'setOutputMovies', payload: sortedMovies });
   };
@@ -90,11 +74,37 @@ const Filter: React.FC = () => {
     return filtered;
   };
 
-  // const filterByGenres = (genres:number[] , movies:moviesItem[],currentItemId:number) => {
-  //   const isAlreadyAdded = filteredByGenre.some((item: number) => {
-  //     return item === currentItemId;
-  //   });
-  // };
+  const filterByGenres = (movies:moviesItem[]) => {
+    if (selectedGenres.length === 0) return movies;
+
+    const filteredByGenres = movies.filter(movie => {
+      return selectedGenres.every(val => movie.genre_ids.includes(val));
+    })
+
+    return filteredByGenres
+  }
+  const handleFilterByGenres = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const isAlreadyAdded = selectedGenres.some((item: number) => {
+      return item === +e.target.id;
+    });
+
+    if(isAlreadyAdded){
+      if(selectedGenres.length <= 1) {
+        setSelectedGenres([])
+        return
+      }
+      const filtered = selectedGenres.filter((item:number) => {
+        return item !== +e.target.id
+      })
+      setSelectedGenres(filtered)
+    } else {
+      setSelectedGenres([...selectedGenres,+e.target.id])
+    }
+
+   
+    dispatch({type:'setSelectedGenres', payload:selectedGenres})
+    
+  };
 
   const authorizedUserSelect = (
     <select className="block w-full p-2 rounded text-slate-800 mt-4 mb-4">
@@ -107,17 +117,12 @@ const Filter: React.FC = () => {
     setSelectedSorting(e.target.value);
     dispatch({ type: 'setSelectedSorting', payload: e.target.value });
   };
-  useEffect(() => {
-    filterMovies();
-  }, [selectedSorting]);
+
 
   const handleYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedYear(e.target.value);
     dispatch({ type: 'setSelectedYear', payload: e.target.value });
   };
-  useEffect(() => {
-    filterMovies();
-  }, [selectedYear]);
 
   return (
     <div className=" text-stone-100 p-4 border-2 bg-stone-500  rounded-md h-min w-1/5">
@@ -158,7 +163,7 @@ const Filter: React.FC = () => {
                 key={item.id}
                 category={item.name}
                 id={item.id}
-                handleOnChange={handleFilter}
+                handleOnChange={handleFilterByGenres}
               />
             );
           })}
