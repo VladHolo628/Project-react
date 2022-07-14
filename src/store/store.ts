@@ -26,6 +26,9 @@ export interface RootState {
   selectedSorting: string;
   selectedYear: string;
   selectedGenres:number[];
+  genresToSearch: [];
+  votesToSearch: 'high' | 'low';
+  popularityToSearch: string;
   showModal: boolean;
   isAuthorized: boolean;
 }
@@ -38,6 +41,9 @@ const initialState: RootState = {
   selectedSorting: 'PopularityDown',
   selectedYear: '2020',
   selectedGenres: [],
+  genresToSearch: [],
+  votesToSearch: 'high',
+  popularityToSearch: 'high',
   showModal: false,
   isAuthorized: false,
 };
@@ -48,6 +54,24 @@ const moviesReducer = (
 ) => {
   const newState: RootState = JSON.parse(JSON.stringify(state));
   switch (action.type) {
+    case 'setGenresToSearch':
+      return {
+        ...newState,
+        genresToSearch: action.payload,
+      };
+      break;
+    case 'setVotesToSearch':
+      return {
+        ...newState,
+        votesToSearch: action.payload,
+      };
+      break;
+    case 'setPopularityToSearch':
+      return {
+        ...newState,
+        popularityToSearch: action.payload,
+      };
+      break;
     case 'setMoviesList':
       return {
         ...newState,

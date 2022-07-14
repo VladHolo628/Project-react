@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 const CategoryItem: React.FC<{
   category: string;
   id: number;
-  handleOnChange: React.ChangeEventHandler<HTMLInputElement>;
+  handleOnChange?: React.ChangeEventHandler<HTMLInputElement>;
 }> = ({ category, id, handleOnChange }) => {
   return (
     <label className="flex items-center cursor-pointer w-min whitespace-nowrap">
